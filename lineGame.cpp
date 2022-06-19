@@ -299,6 +299,8 @@ void printMatriz(int l, int c, int tamLista, lista dl[]){
 		}
 		cout<<" "<<endl;
 	}
+	cout<<"Press Enter to continue"<<endl;
+	system("pause");
 }
 int  **constroiMatriz(int l, int c){
 	cout<<"Matriz de tamanho: "<<l<<" x "<<c<<endl;
@@ -391,22 +393,23 @@ int main(){
 			cout<<"Digite PY"<<i<<" inicial: ";
 			cin>>elementoY;
 			//verificar se a posição esta dentro da matriz
-			if((elementoX >= 0 || elementoX < l) && (elementoY >= 0 || elementoX < c)){
+			if((elementoX >= 0 && elementoX < l) && (elementoY >= 0 && elementoY < c)){
 				verif1 = true;
+				//verificar posição ja esta ocupada
+				if(matriz[elementoX][elementoY] == -1){
+					verif2 = true;
+				}
+				else{
+					verif2 = false;
+					cout<<"Esta posicao ja esta ocupada, digite outra posicao!"<<endl;
+				}
 			}else{
 				verif1 = false;
 				cout<<"Esta posicao esta fora da matriz, digite outra posicao!"<<endl;
 			}
-			//verificar posição ja esta ocupada
-			if(matriz[elementoX][elementoY] == -1){
-				verif2 = true;
-			}
-			else{
-				verif2 = false;
-				cout<<"Esta posicao ja esta ocupada, digite outra posicao!"<<endl;
-			}
 		}
 
+		cout<<"AQUI"<<endl;
 		matriz = InserMatriz(elementoX, elementoY, matriz, 'c');//insere Matriz Começo
 		verif1=false;
 		verif2=false;
@@ -417,20 +420,20 @@ int main(){
 			cin>>elementoX;
 			cout<<"Digite PY"<<i<<" final: ";
 			cin>>elementoY;
-			if((elementoX >= 0 || elementoX < l) && (elementoY >= 0 || elementoX < c)){
+			if((elementoX >= 0 && elementoX < l) && (elementoY >= 0 && elementoX < c)){
 				verif1 = true;
+				//verificar posição ja esta ocupada
+				if(matriz[elementoX][elementoY] == -1){
+					verif2 = true;
+				}
+				else{
+					verif2 = false;
+					cout<<"Esta posicao ja esta ocupada, digite outra posicao!"<<endl;
+				}
 			}
 			else{
 				verif1 = false;
 				cout<<"Esta posicao esta fora da matriz, digite outra posicao!"<<endl;
-			}
-			//verificar posição ja esta ocupada
-			if(matriz[elementoX][elementoY] == -1){
-				verif2 = true;
-			}
-			else{
-				verif2 = false;
-				cout<<"Esta posicao ja esta ocupada, digite outra posicao!"<<endl;
 			}
 		}
 
