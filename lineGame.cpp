@@ -22,26 +22,33 @@ class No{
 		int GetValor();
 		void SetValor(int x, int y);
 };
+
 No::No(){
 	proximo = NULL;
 	anterior = NULL;
 	valor[2] = NULL;
 }
+
 No* No::GetProximo(){
 	return proximo;
 }
+
 void No::SetProximo(No *p){
 	proximo = p;
 }
+
 No* No::GetAnterior(){
 	return anterior;
 }
+
 void No::SetAnterior(No *a){
 	anterior = a;
 }
+
 int No::GetValor(){
 	return valor[2];
 }
+
 void No::SetValor(int x, int y){
 	valor[0] = x;
 	valor[1] = y;
@@ -90,6 +97,7 @@ void lista::criar_lista(int x, int y){
         tmp->anterior = s;
     }
 }
+
 void lista::insere_lista_final(int x, int y){
     No *s;
     No *tmp;
@@ -140,6 +148,7 @@ void lista::insere_lista_inicial(int x, int y){
 	penultimo->proximo = tmp;
 
 }
+
 void lista::print_lista(){
     No *q;
     if (head == NULL){
@@ -302,6 +311,7 @@ void printMatriz(int l, int c, int tamLista, lista dl[]){
 	cout<<"Press Enter to continue"<<endl;
 	system("pause");
 }
+
 int  **constroiMatriz(int l, int c){
 	cout<<"Matriz de tamanho: "<<l<<" x "<<c<<endl;
 	//alocação dinâmica
@@ -311,14 +321,15 @@ int  **constroiMatriz(int l, int c){
 	for (i = 0; i < l; i++){ //aloca as colunas
         p[i] = (int*) calloc (c, sizeof(int));
     }
-    cout<<"Matriz construida com sucesso"<<endl;
     for(int i=0; i<l; i++){
 	    for(int j=0; j<c; j++){
 			p[i][j] = -1;
 		}
 	}
+	cout<<"Matriz construida com sucesso\n"<<endl;
     return (p);
 }
+
 int **removePos(int pos, int l, int c, int **matriz){
 	for(int i=0; i<l; i++){
 		for(int j=0; j<c; j++){
@@ -329,6 +340,7 @@ int **removePos(int pos, int l, int c, int **matriz){
 	}
 	return(matriz);
 }
+
 int **InserMatriz(int posX, int posY, int **matriz, char cf){
 	if(cf=='c'){
 		matriz[posX][posY] = -2;//-2 significa começo da linha
@@ -339,6 +351,7 @@ int **InserMatriz(int posX, int posY, int **matriz, char cf){
 
 	return (matriz);
 }
+
 int **destroiMatriz(int l, int c, int **matriz){
 	int  i;// variavel auxiliar
 	for (i=0; i<l; i++) free (matriz[i]);//libera as linhas da matriz
@@ -360,7 +373,7 @@ bool  finalGame(int l, int c, int **matriz){
 }
 
 int main(){
-	 setlocale(LC_ALL, "Portuguese");
+	setlocale(LC_ALL, "Portuguese");
     int n=0, l=0, c=0, **matriz;
 	cout<<"LINE GAME"<<endl;
 	cout<<"Digite o tamanho da Matriz"<<endl;
@@ -409,12 +422,11 @@ int main(){
 			}
 		}
 
-		cout<<"AQUI"<<endl;
 		matriz = InserMatriz(elementoX, elementoY, matriz, 'c');//insere Matriz Começo
 		verif1=false;
 		verif2=false;
 		dl[i].criar_lista(elementoX, elementoY);
-
+		printMatriz(l, c, n, dl);
 		while(verif1==false || verif2==false){
 			cout<<"Digite PX"<<i<<" final: ";
 			cin>>elementoX;
@@ -436,9 +448,10 @@ int main(){
 				cout<<"Esta posicao esta fora da matriz, digite outra posicao!"<<endl;
 			}
 		}
-
+		
 		matriz = InserMatriz(elementoX, elementoY, matriz, 'f');
 		dl[i].criar_lista(elementoX, elementoY);
+		printMatriz(l, c, n, dl);
 	}
 
 	bool GameRun = true;
