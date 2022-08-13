@@ -291,11 +291,24 @@ int pontos(int l, int c){
 }
 
 void printMatriz(int l, int c, int tamLista, lista dl[]){
+	for(int i=0; i<c+7+(c*2); i++){
+		cout<<"-";	
+	}
+	cout<<endl;
+	cout<<" #    ";
+	for(int i=0; i<c; i++){
+		cout<<" "<<i<<" ";	
+	}
+	cout<<"|"<<endl;
+	for(int i=0; i<c+7+(c*2); i++){
+		cout<<"-";	
+	}
+	cout<<endl;
 	bool vdd = false;
 	for(int i=0; i<l; i++){
+		cout<<" "<<i <<" | ";
 		for(int j=0; j<c; j++){
 			for(int k=0; k<tamLista; k++){
-            //cout<<"verificando lista "<<k<<endl;
 		 	vdd = dl[k].getValor(i, j);
 				if(vdd){
 					cout<<"  "<<k;
@@ -306,8 +319,12 @@ void printMatriz(int l, int c, int tamLista, lista dl[]){
 			   cout<<"  "<<char(164);//164
             }
 		}
-		cout<<" "<<endl;
+		cout<<" |"<<endl;
 	}
+	for(int i=0; i<c+7+(c*2); i++){
+		cout<<"-";	
+	}
+	cout<<endl;
 	cout<<"Press Enter to continue"<<endl;
 	system("pause");
 }
@@ -372,30 +389,10 @@ bool  finalGame(int l, int c, int **matriz){
 	return false;//se for false retorna o fim do jogo
 }
 
-int main(){
-	setlocale(LC_ALL, "Portuguese");
-    int n=0, l=0, c=0, **matriz;
-	cout<<"LINE GAME"<<endl;
-	cout<<"Digite o tamanho da Matriz"<<endl;
-	cout<<"Linhas: ";
-	cin>>l;
-	cout<<"Colunas: ";
-	cin>>c;
-	matriz = constroiMatriz(l, c);
-	cout<<"Press Enter to continue"<<endl;
-	system("pause");
-	system("cls"); 
-	n = pontos(l, c);
-
+void setupPointsInMatriz(int n, int l, int c,  int **matriz,  lista dl[]){
 	int elementoX, elementoY;
 	bool verif1=false, verif2=false, verif3=false;
-	lista dl[n]; //cria vetor de objetos
 
-	cout<<"(X,Y)----->"<<endl;
-	cout<<" |"<<endl;
-	cout<<" |"<<endl;
-	cout<<" |"<<endl;
-	cout<<" v"<<endl;
 	for(int i=0; i<n; i++){
 		verif1=false;
 		verif2=false;
@@ -453,10 +450,30 @@ int main(){
 		dl[i].criar_lista(elementoX, elementoY);
 		printMatriz(l, c, n, dl);
 	}
+}
 
+int main(){
+	setlocale(LC_ALL, "Portuguese");
+    int n=0, l=0, c=0, **matriz;
+	cout<<"LINE GAME"<<endl;
+	cout<<"Digite o tamanho da Matriz"<<endl;
+	cout<<"Linhas: ";
+	cin>>l;
+	cout<<"Colunas: ";
+	cin>>c;
+	matriz = constroiMatriz(l, c);
+	cout<<"Press Enter to continue"<<endl;
+	system("pause");
+	system("cls"); 
+	n = pontos(l, c);
+	lista dl[n]; //cria vetor de objetos
+	setupPointsInMatriz(n, l, c, matriz, dl);
+	
 	bool GameRun = true;
 	int indexLista;
 	char CF;
+	bool verif1=false, verif2=false, verif3=false;
+	int elementoX, elementoY;
 	while(GameRun){
         system("cls");//limpar a tela do jogo
 
