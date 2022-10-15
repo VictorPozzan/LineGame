@@ -112,12 +112,13 @@ void Lista::print_lista(){
         return;
     }
     q = head;
-    cout<<"A lista eh: "<<endl;
+    cout<<"Valores da lista: "<<endl;
     while (q != NULL){
         cout<<q->valor[0]<<","<<q->valor[1]<<" <-> ";
         q = q->proximo;
     }
-    cout<<"NULL"<<endl;
+ 	cout<<"Press Enter to continue"<<endl;
+	system("pause");
 }
 
 bool Lista::getValor(int i, int j){

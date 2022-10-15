@@ -65,22 +65,22 @@ void printMatriz(int l, int c, int tamLista, Lista dl[]){
 	system("pause");
 }
 
-int  **constroiMatriz(int l, int c){
-	cout<<"Matriz de tamanho: "<<l<<" x "<<c<<endl;
+int  **buildMatrix(int row, int col){
+	cout<<"Matriz de tamanho: "<<row<<" x "<<col<<endl;
 	//alocação dinâmica
-	int **p, i;//p um ponteiro para a matriz
-    p = (int **) calloc (l, sizeof(int *));//aloca as linhas da matriz
+	int **pointer, i, j;//p um ponteiro para a matriz
+    pointer = (int **) calloc (row, sizeof(int *));//aloca as linhas da matriz
 
-	for (i = 0; i < l; i++){ //aloca as colunas
-        p[i] = (int*) calloc (c, sizeof(int));
+	for (i = 0; i < row; i++){ //aloca as colunas
+        pointer[i] = (int*) calloc (col, sizeof(int));
     }
-    for(int i=0; i<l; i++){
-	    for(int j=0; j<c; j++){
-			p[i][j] = -1;
+    for(i=0; i<row; i++){
+	    for(j=0; j<col; j++){
+			pointer[i][j] = -1;
 		}
 	}
 	cout<<"Matriz construida com sucesso\n"<<endl;
-    return (p);
+    return (pointer);
 }
 
 int **removePos(int pos, int l, int c, int **matriz){
@@ -127,7 +127,7 @@ bool  finalGame(int l, int c, int **matriz){
 
 void setupPointsInMatriz(int n, int l, int c,  int **matriz,  Lista dl[]){
 	int elementoX, elementoY;
-	bool verif1=false, verif2=false, verif3=false;
+	bool verif1=false, verif2=false;
 
 	for(int i=0; i<n; i++){
 		verif1=false;
@@ -197,7 +197,7 @@ int main(){
 	cin>>row;
 	cout<<"Colunas: ";
 	cin>>col;
-	matriz = constroiMatriz(row, col);
+	matriz = buildMatrix(row, col);
 	cout<<"Press Enter to continue"<<endl;
 	system("pause");
 	system("cls"); 
