@@ -12,16 +12,16 @@
 using namespace std;
 
 
-int pontos(int l, int c){
-	int numPares;
+int setNumberPairs(int row, int col){
+	int numberPairs;
 	while(true){
 		cout<<"Informe o numero de pares:"<<endl;
-		cin>>numPares;
-    	if((numPares<(c*l)/2) && (numPares>=1)){
-			return numPares;
+		cin>>numberPairs;
+    	if((numberPairs<(col*row)/2) && (numberPairs>=1)){
+			return numberPairs;
 		}
 		else{
-			cout<<"numero de pares inválido"<<endl;
+			cout<<"Numero de pares inválido"<<endl;
 		}
 	}
 }
@@ -201,7 +201,7 @@ int main(){
 	cout<<"Press Enter to continue"<<endl;
 	system("pause");
 	system("cls"); 
-	n = pontos(row, col);
+	n = setNumberPairs(row, col);
 	Lista dl[n]; //cria vetor de objetos
 	setupPointsInMatriz(n, row, col, matriz, dl);
 	
