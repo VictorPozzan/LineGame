@@ -26,24 +26,24 @@ int setNumberPairs(int row, int col){
 	}
 }
 
-void printMatriz(int l, int c, int tamLista, Lista dl[]){
-	for(int i=0; i<c+7+(c*2); i++){
+void printMatriz(int row, int col, int tamLista, Lista dl[]){
+	for(int i=0; i<col+7+(col*2); i++){
 		cout<<"-";	
 	}
 	cout<<endl;
 	cout<<" #    ";
-	for(int i=0; i<c; i++){
+	for(int i=0; i<col; i++){
 		cout<<" "<<i<<" ";	
 	}
 	cout<<"|"<<endl;
-	for(int i=0; i<c+7+(c*2); i++){
+	for(int i=0; i<col+7+(col*2); i++){
 		cout<<"-";	
 	}
 	cout<<endl;
 	bool vdd = false;
-	for(int i=0; i<l; i++){
+	for(int i=0; i<row; i++){
 		cout<<" "<<i <<" | ";
-		for(int j=0; j<c; j++){
+		for(int j=0; j<col; j++){
 			for(int k=0; k<tamLista; k++){
 		 	vdd = dl[k].getValor(i, j);
 				if(vdd){
@@ -57,7 +57,7 @@ void printMatriz(int l, int c, int tamLista, Lista dl[]){
 		}
 		cout<<" |"<<endl;
 	}
-	for(int i=0; i<c+7+(c*2); i++){
+	for(int i=0; i<col+7+(col*2); i++){
 		cout<<"-";	
 	}
 	cout<<endl;
@@ -83,9 +83,9 @@ int  **buildMatrix(int row, int col){
     return (pointer);
 }
 
-int **removePos(int pos, int l, int c, int **matriz){
-	for(int i=0; i<l; i++){
-		for(int j=0; j<c; j++){
+int **removePos(int pos, int row, int col, int **matriz){
+	for(int i=0; i<row; i++){
+		for(int j=0; j<col; j++){
 			if(matriz[i][j] == pos){
 				matriz[i][j] = -1;
 			}
@@ -105,18 +105,18 @@ int **InserMatriz(int posX, int posY, int **matriz, char cf){
 	return (matriz);
 }
 
-int **destroiMatriz(int l, int c, int **matriz){
+int **destroiMatriz(int row, int col, int **matriz){
 	int  i;// variavel auxiliar
-	for (i=0; i<l; i++) free (matriz[i]);//libera as linhas da matriz
+	for (i=0; i<row; i++) free (matriz[i]);//libera as linhas da matriz
 	free (matriz);// libera a matriz
 	cout<<"Matriz destruida com sucesso"<<endl;
 	return (NULL);//retorna um ponteiro nulo
 }
 
-bool  finalGame(int l, int c, int **matriz){
+bool  finalGame(int row, int col, int **matriz){
 
-	for(int i=0; i<l; i++){
-		for(int j=0; j<l; j++){
+	for(int i=0; i<row; i++){
+		for(int j=0; j<col; j++){
 			if(matriz[i][j]==-1){//significa que ainda há alguma posição vazia na matriz
 				return true;//se for true continua o jogo
 			}
@@ -125,7 +125,7 @@ bool  finalGame(int l, int c, int **matriz){
 	return false;//se for false retorna o fim do jogo
 }
 
-void setupPointsInMatriz(int n, int l, int c,  int **matriz,  Lista dl[]){
+void setupPointsInMatriz(int n, int row, int col,  int **matriz,  Lista dl[]){
 	int elementoX, elementoY;
 	bool verif1=false, verif2=false;
 
@@ -139,7 +139,7 @@ void setupPointsInMatriz(int n, int l, int c,  int **matriz,  Lista dl[]){
 			cout<<"Digite PY"<<i<<" inicial: ";
 			cin>>elementoY;
 			//verificar se a posição esta dentro da matriz
-			if((elementoX >= 0 && elementoX < l) && (elementoY >= 0 && elementoY < c)){
+			if((elementoX >= 0 && elementoX < row) && (elementoY >= 0 && elementoY < col)){
 				verif1 = true;
 				//verificar posição ja esta ocupada
 				if(matriz[elementoX][elementoY] == -1){
@@ -158,14 +158,14 @@ void setupPointsInMatriz(int n, int l, int c,  int **matriz,  Lista dl[]){
 		matriz = InserMatriz(elementoX, elementoY, matriz, 'c');//insere Matriz Começo
 		verif1=false;
 		verif2=false;
-		dl[i].criar_lista(elementoX, elementoY);
-		printMatriz(l, c, n, dl);
+		dl[i].createList(elementoX, elementoY);
+		printMatriz(row, col, n, dl);
 		while(verif1==false || verif2==false){
 			cout<<"Digite PX"<<i<<" final: ";
 			cin>>elementoX;
 			cout<<"Digite PY"<<i<<" final: ";
 			cin>>elementoY;
-			if((elementoX >= 0 && elementoX < l) && (elementoY >= 0 && elementoX < c)){
+			if((elementoX >= 0 && elementoX < row) && (elementoY >= 0 && elementoX < col)){
 				verif1 = true;
 				//verificar posição ja esta ocupada
 				if(matriz[elementoX][elementoY] == -1){
@@ -183,14 +183,14 @@ void setupPointsInMatriz(int n, int l, int c,  int **matriz,  Lista dl[]){
 		}
 		
 		matriz = InserMatriz(elementoX, elementoY, matriz, 'f');
-		dl[i].criar_lista(elementoX, elementoY);
-		printMatriz(l, c, n, dl);
+		dl[i].createList(elementoX, elementoY);
+		printMatriz(row, col, n, dl);
 	}
 }
 
 int main(){
 	setlocale(LC_ALL, "Portuguese");
-    int n=0, row=0, col=0, **matriz;
+    int numberOfPairs=0, row=0, col=0, **matriz;
 	cout<<"LINE GAME"<<endl;
 	cout<<"Digite o tamanho da Matriz"<<endl;
 	cout<<"Linhas: ";
@@ -201,9 +201,9 @@ int main(){
 	cout<<"Press Enter to continue"<<endl;
 	system("pause");
 	system("cls"); 
-	n = setNumberPairs(row, col);
-	Lista dl[n]; //cria vetor de objetos
-	setupPointsInMatriz(n, row, col, matriz, dl);
+	numberOfPairs = setNumberPairs(row, col);
+	Lista dl[numberOfPairs]; //cria vetor de objetos
+	setupPointsInMatriz(numberOfPairs, row, col, matriz, dl);
 	
 	bool GameRun = true;
 	int indexLista;
@@ -213,9 +213,9 @@ int main(){
 	while(GameRun){
         system("cls");//limpar a tela do jogo
 
-		printMatriz(row, col, n, dl);
+		printMatriz(row, col, numberOfPairs, dl);
 		cout<<"Escolha a Linha pela qual deseja comecar a jogar"<<endl;
-		for(int i=0; i<n; i++){
+		for(int i=0; i<numberOfPairs; i++){
 			cout<<"Linha "<<i<<":"<<endl;
 			dl[i].print_lista();
 		}
@@ -292,7 +292,7 @@ int main(){
 			linhaCompleta = dl[indexLista].percorreLinha();
 
 
-			printMatriz(row, col, n, dl);
+			printMatriz(row, col, numberOfPairs, dl);
 			dl[indexLista].print_lista();
 			//verificar se a linha esta completa;
 		}

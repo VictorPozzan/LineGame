@@ -14,7 +14,7 @@ class Lista{
     No *head, *fim;
 	public:
 		Lista();
-        void criar_lista(int x, int y);
+        void createList(int x, int y);
         void add_head(int novo);
         void add_entre(int novo, int posicao);
         void deletar_elemento(int novo);
@@ -34,7 +34,7 @@ Lista::Lista(){
 	fim = NULL;
 }
 
-void Lista::criar_lista(int x, int y){
+void Lista::createList(int x, int y){
     No *s;
     No *tmp;
     tmp = new No;
