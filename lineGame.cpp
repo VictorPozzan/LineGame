@@ -196,6 +196,32 @@ void printDirectionCoordinates(){
 	cout<<" v"<<endl;
 }
 
+boolean positionInsideMatriz(int elementoX, int elementoY, int row, int col){
+	if((elementoX >= 0 || elementoX < row) && (elementoY >= 0 || elementoX < col)){
+		return true;
+	}else{
+		cout<<"Esta posicao esta fora da matriz, digite outra posicao!"<<endl;
+		return false;
+	}
+}
+
+boolean positionEmpty(int **matriz, int elementoX, int elementoY, int indexLista, int row, int col, Lista dl[]){//verificar posição se esta vazia na matriz
+	if(matriz[elementoX][elementoY] == -1){
+		return true;
+	}
+	else{//verificar se -2 ou -3 ou a propria lista não pode inserir
+		if(matriz[elementoX][elementoY] == -2 || matriz[elementoX][elementoY] == -3 || matriz[elementoX][elementoY] == indexLista){
+			cout<<"Esta posicao ja esta ocupada, digite outra posicao!"<<endl;
+			return false;
+		}
+		else{//remover a lista ocupante dessa possição
+			int pos = matriz[elementoX][elementoY];
+			matriz = removePos(pos, row, col, matriz);
+			dl[pos].removeListaOcupante();
+		   	return true;
+		}
+	}
+}
 
 
 int main(){
@@ -247,31 +273,9 @@ int main(){
 			cout<<"Digite PY: ";
 			cin>>elementoY;
 
+			verif1 = positionInsideMatriz(elementoX, elementoY, row, col);
+			verif2 = positionEmpty(matriz, elementoX, elementoY, indexLista, row, col, dl);
 			
-			//verificar se a posição esta dentro da matriz
-			if((elementoX >= 0 || elementoX < row) && (elementoY >= 0 || elementoX < col)){
-				verif1 = true;
-			}else{
-				verif1 = false;
-				cout<<"Esta posicao esta fora da matriz, digite outra posicao!"<<endl;
-			}
-
-            //verificar posição se esta vazia na matriz
-			if(matriz[elementoX][elementoY] == -1){
-				verif2 = true;
-			}
-			else{//verificar se -2 ou -3 ou a propria lista não pode inserir
-				if(matriz[elementoX][elementoY] == -2 || matriz[elementoX][elementoY] == -3 || matriz[elementoX][elementoY] == indexLista){
-					verif2 = false;
-					cout<<"Esta posicao ja esta ocupada, digite outra posicao!"<<endl;
-			}
-				else{//remover a lista ocupante dessa possição
-					int pos = matriz[elementoX][elementoY];
-					matriz = removePos(pos, row, col, matriz);
-					dl[pos].removeListaOcupante();
-				   	verif2 = true;
-	  	        }
-	 	 	 }
 
 
 			//verificar se o usuario começou pela posição inicial
