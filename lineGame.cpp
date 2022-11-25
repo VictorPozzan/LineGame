@@ -188,6 +188,16 @@ void setupPointsInMatriz(int n, int row, int col,  int **matriz,  Lista dl[]){
 	}
 }
 
+void printDirectionCoordinates(){
+	cout<<"(X,Y)----->"<<endl;
+	cout<<" |"<<endl;
+	cout<<" |"<<endl;
+	cout<<" |"<<endl;
+	cout<<" v"<<endl;
+}
+
+
+
 int main(){
 	setlocale(LC_ALL, "Portuguese");
     int numberOfPairs=0, row=0, col=0, **matriz;
@@ -212,7 +222,8 @@ int main(){
 	int elementoX, elementoY;
 	while(GameRun){
         system("cls");//limpar a tela do jogo
-
+		printDirectionCoordinates();
+		
 		printMatriz(row, col, numberOfPairs, dl);
 		cout<<"Escolha a Linha pela qual deseja comecar a jogar"<<endl;
 		for(int i=0; i<numberOfPairs; i++){
@@ -230,17 +241,13 @@ int main(){
 
 		while(linhaCompleta == false || verif1==false || verif2==false || verif3==false){
         	system("cls");//limpar a tela do jogo
-			cout<<"(X,Y)----->"<<endl;
-			cout<<" |"<<endl;
-			cout<<" |"<<endl;
-			cout<<" |"<<endl;
-			cout<<" v"<<endl;
 
 			cout<<"Digite PX: ";
 			cin>>elementoX;
 			cout<<"Digite PY: ";
 			cin>>elementoY;
 
+			
 			//verificar se a posição esta dentro da matriz
 			if((elementoX >= 0 || elementoX < row) && (elementoY >= 0 || elementoX < col)){
 				verif1 = true;
@@ -301,5 +308,3 @@ int main(){
     matriz = destroiMatriz(row, col, matriz);
 	return 0;
 }
-
-
