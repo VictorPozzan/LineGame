@@ -26,7 +26,7 @@ int setNumberPairs(int row, int col){
 	}
 }
 
-void printMatriz(int row, int col, int tamLista, Lista dl[]){
+void printMatriz(int row, int col, int tamLista, Lista line[]){
 	for(int i=0; i<col+7+(col*2); i++){
 		cout<<"-";	
 	}
@@ -45,7 +45,7 @@ void printMatriz(int row, int col, int tamLista, Lista dl[]){
 		cout<<" "<<i <<" | ";
 		for(int j=0; j<col; j++){
 			for(int k=0; k<tamLista; k++){
-		 	vdd = dl[k].getValor(i, j);
+		 	vdd = line[k].getValor(i, j);
 				if(vdd){
 					cout<<"  "<<k;
 					k = tamLista;
@@ -125,7 +125,7 @@ bool  finalGame(int row, int col, int **matriz){
 	return false;//se for false retorna o fim do jogo
 }
 
-void setupPointsInMatriz(int n, int row, int col,  int **matriz,  Lista dl[]){
+void setupPointsInMatriz(int n, int row, int col,  int **matriz,  Lista line[]){
 	int elementoX, elementoY;
 	bool verif1=false, verif2=false;
 
@@ -158,8 +158,8 @@ void setupPointsInMatriz(int n, int row, int col,  int **matriz,  Lista dl[]){
 		matriz = InserMatriz(elementoX, elementoY, matriz, 'c');//insere Matriz Começo
 		verif1=false;
 		verif2=false;
-		dl[i].createList(elementoX, elementoY);
-		printMatriz(row, col, n, dl);
+		line[i].createList(elementoX, elementoY);
+		printMatriz(row, col, n, line);
 		while(verif1==false || verif2==false){
 			cout<<"Digite PX"<<i<<" final: ";
 			cin>>elementoX;
@@ -183,8 +183,8 @@ void setupPointsInMatriz(int n, int row, int col,  int **matriz,  Lista dl[]){
 		}
 		
 		matriz = InserMatriz(elementoX, elementoY, matriz, 'f');
-		dl[i].createList(elementoX, elementoY);
-		printMatriz(row, col, n, dl);
+		line[i].createList(elementoX, elementoY);
+		printMatriz(row, col, n, line);
 	}
 }
 
@@ -205,7 +205,7 @@ boolean positionInsideMatriz(int elementoX, int elementoY, int row, int col){
 	}
 }
 
-boolean positionEmpty(int **matriz, int elementoX, int elementoY, int indexLista, int row, int col, Lista dl[]){//verificar posição se esta vazia na matriz
+boolean positionEmpty(int **matriz, int elementoX, int elementoY, int indexLista, int row, int col, Lista line[]){//verificar posição se esta vazia na matriz
 	if(matriz[elementoX][elementoY] == -1){
 		return true;
 	}
@@ -217,18 +217,18 @@ boolean positionEmpty(int **matriz, int elementoX, int elementoY, int indexLista
 		else{//remover a lista ocupante dessa possição
 			int pos = matriz[elementoX][elementoY];
 			matriz = removePos(pos, row, col, matriz);
-			dl[pos].removeListaOcupante();
+			line[pos].removeListaOcupante();
 		   	return true;
 		}
 	}
 }
 
-int chooseLine(int numberOfPairs, Lista dl[]){
+int chooseLine(int numberOfPairs, Lista line[]){
 	int indexLista;
     cout<<"Escolha a Linha pela qual deseja comecar a jogar"<<endl;
 	for(int i=0; i<numberOfPairs; i++){
 		cout<<"Linha "<<i<<":"<<endl;
-		dl[i].print_lista();
+		line[i].print_lista();
 	}
 	cout<<"Indice Linha: ";
 	cin>>indexLista;
@@ -251,29 +251,29 @@ int main(){
 	system("pause");
 	system("cls"); 
 	numberOfPairs = setNumberPairs(row, col);
-	Lista dl[numberOfPairs]; //cria vetor de objetos
-	setupPointsInMatriz(numberOfPairs, row, col, matriz, dl);
+	Lista line[numberOfPairs]; //cria vetor de objetos
+	setupPointsInMatriz(numberOfPairs, row, col, matriz, line);
 	
-	bool GameRun = true;
+	bool gameRun = true;
 	int indexLista;
 	char startByBeginOrEndList;
 	bool verif1=false, verif2=false, verif3=false;
 	int elementoX, elementoY;
-	while(GameRun){
+	while(gameRun){
         system("cls");//limpar a tela do jogo
 		printDirectionCoordinates();
 		
-		printMatriz(row, col, numberOfPairs, dl);
-		indexLista = chooseLine(numberOfPairs, dl);
+		printMatriz(row, col, numberOfPairs, line);
+		indexLista = chooseLine(numberOfPairs, line);
 
-		cout<<"Precione C ou F"<<endl;
+		cout<<"Pressione C ou F"<<endl;
 		cout<<"C - Comecar pelo ponto inicial"<<endl;
 		cout<<"F - Comecar pelo ponto final"<<endl;
         cin>>startByBeginOrEndList;
         bool linhaCompleta = false;
 
 		while(linhaCompleta == false || verif1==false || verif2==false || verif3==false){
-        	system("cls");//limpar a tela do jogo
+        	system("cls");
 
 			cout<<"Digite PX: ";
 			cin>>elementoX;
@@ -281,25 +281,25 @@ int main(){
 			cin>>elementoY;
 
 			verif1 = positionInsideMatriz(elementoX, elementoY, row, col);
-			verif2 = positionEmpty(matriz, elementoX, elementoY, indexLista, row, col, dl);
+			verif2 = positionEmpty(matriz, elementoX, elementoY, indexLista, row, col, line);
 			
 
 
 			//verificar se o usuario começou pela posição inicial
 			if(startByBeginOrEndList=='C' || startByBeginOrEndList=='c'){
 				//verificar se a posição é perto da posição anterior
-				verif3 = dl[indexLista].posicaoPertoComeco(elementoX, elementoY);
+				verif3 = line[indexLista].posicaoPertoComeco(elementoX, elementoY);
 
 				if(verif1 == true && verif2 == true && verif3 == true){
-					dl[indexLista].insere_lista_inicial(elementoX, elementoY);//sempre insere na penultima posicao da lista
+					line[indexLista].insere_lista_inicial(elementoX, elementoY);//sempre insere na penultima posicao da lista
 					matriz[elementoX][elementoY] =  indexLista; //recebe o index da lista
 				}
 			}else if(startByBeginOrEndList=='F' || startByBeginOrEndList=='f'){
 				//verificar se a posição é perto da posição anterior
-				verif3 = dl[indexLista].posicaoPertoFinal(elementoX, elementoY);
+				verif3 = line[indexLista].posicaoPertoFinal(elementoX, elementoY);
 
 				if(verif1 == true && verif2 == true && verif3 == true){
-					dl[indexLista].insere_lista_final(elementoX,elementoY);//sempre insere na segunda posicao da lista
+					line[indexLista].insere_lista_final(elementoX,elementoY);//sempre insere na segunda posicao da lista
 					matriz[elementoX][elementoY] =  indexLista; //recebe o index da lista
 				}
             }else{
@@ -307,14 +307,14 @@ int main(){
 			}
 
 			//verificar se toda a lista foi percorrida, caso sim pode-se escolher outra lista
-			linhaCompleta = dl[indexLista].percorreLinha();
+			linhaCompleta = line[indexLista].percorreLinha();
 
 
-			printMatriz(row, col, numberOfPairs, dl);
-			dl[indexLista].print_lista();
+			printMatriz(row, col, numberOfPairs, line);
+			line[indexLista].print_lista();
 			//verificar se a linha esta completa;
 		}
-	   GameRun = finalGame(row, col, matriz);
+	   gameRun = finalGame(row, col, matriz);
 	}
     matriz = destroiMatriz(row, col, matriz);
 	return 0;
