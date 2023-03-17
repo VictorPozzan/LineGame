@@ -223,6 +223,19 @@ boolean positionEmpty(int **matriz, int elementoX, int elementoY, int indexLista
 	}
 }
 
+int chooseLine(int numberOfPairs, Lista dl[]){
+	int indexLista;
+    cout<<"Escolha a Linha pela qual deseja comecar a jogar"<<endl;
+	for(int i=0; i<numberOfPairs; i++){
+		cout<<"Linha "<<i<<":"<<endl;
+		dl[i].print_lista();
+	}
+	cout<<"Indice Linha: ";
+	cin>>indexLista;
+	
+	return indexLista;
+}
+
 
 int main(){
 	setlocale(LC_ALL, "Portuguese");
@@ -251,13 +264,7 @@ int main(){
 		printDirectionCoordinates();
 		
 		printMatriz(row, col, numberOfPairs, dl);
-		cout<<"Escolha a Linha pela qual deseja comecar a jogar"<<endl;
-		for(int i=0; i<numberOfPairs; i++){
-			cout<<"Linha "<<i<<":"<<endl;
-			dl[i].print_lista();
-		}
-		cout<<"Indice Linha: ";
-		cin>>indexLista;
+		indexLista = chooseLine(numberOfPairs, dl);
 
 		cout<<"Precione C ou F"<<endl;
 		cout<<"C - Comecar pelo ponto inicial"<<endl;
