@@ -257,7 +257,7 @@ int main(){
 	bool gameRun = true;
 	int indexLista;
 	char startByBeginOrEndList;
-	bool verif1=false, verif2=false, verif3=false;
+	bool posInsideMatriz = false, posEmpty = false, posNear = false;
 	int elementoX, elementoY;
 	while(gameRun){
         system("cls");//limpar a tela do jogo
@@ -272,7 +272,7 @@ int main(){
         cin>>startByBeginOrEndList;
         bool linhaCompleta = false;
 
-		while(linhaCompleta == false || verif1==false || verif2==false || verif3==false){
+		while(true){
         	system("cls");
 
 			cout<<"Digite PX: ";
@@ -280,39 +280,42 @@ int main(){
 			cout<<"Digite PY: ";
 			cin>>elementoY;
 
-			verif1 = positionInsideMatriz(elementoX, elementoY, row, col);
-			verif2 = positionEmpty(matriz, elementoX, elementoY, indexLista, row, col, line);
+			posInsideMatriz = positionInsideMatriz(elementoX, elementoY, row, col);
+			posEmpty  = positionEmpty(matriz, elementoX, elementoY, indexLista, row, col, line);
 			
-
-
-			//verificar se o usuario começou pela posição inicial
+	    	if(!posInsideMatriz || !posEmpty){
+        		continue;
+    		}
+			
+			posNear = false;
+			
 			if(startByBeginOrEndList=='C' || startByBeginOrEndList=='c'){
-				//verificar se a posição é perto da posição anterior
-				verif3 = line[indexLista].posicaoPertoComeco(elementoX, elementoY);
-
-				if(verif1 == true && verif2 == true && verif3 == true){
-					line[indexLista].insere_lista_inicial(elementoX, elementoY);//sempre insere na penultima posicao da lista
-					matriz[elementoX][elementoY] =  indexLista; //recebe o index da lista
-				}
-			}else if(startByBeginOrEndList=='F' || startByBeginOrEndList=='f'){
-				//verificar se a posição é perto da posição anterior
-				verif3 = line[indexLista].posicaoPertoFinal(elementoX, elementoY);
-
-				if(verif1 == true && verif2 == true && verif3 == true){
-					line[indexLista].insere_lista_final(elementoX,elementoY);//sempre insere na segunda posicao da lista
-					matriz[elementoX][elementoY] =  indexLista; //recebe o index da lista
-				}
+				posNear = line[indexLista].posicaoPertoComeco(elementoX, elementoY);
+			}else if(startByBeginOrEndList=='F' || startByBeginOrEndList=='f'){				
+				posNear = line[indexLista].posicaoPertoFinal(elementoX, elementoY);
             }else{
 				cout<<"Esta opcao "<<startByBeginOrEndList<<" não existe"<<endl;
+				continue;
 			}
+			
+	    	if(!posNear){
+        		continue;
+    		}
+			
+	    	if(startByBeginOrEndList=='C' || startByBeginOrEndList=='c'){
+        		line[indexLista].insere_lista_inicial(elementoX, elementoY);
+    		}else{
+        		line[indexLista].insere_lista_final(elementoX,elementoY);
+    		}
+			
+			matriz[elementoX][elementoY] =  indexLista;
+    		printMatriz(row, col, numberOfPairs, line);
+    		line[indexLista].print_lista();
 
-			//verificar se toda a lista foi percorrida, caso sim pode-se escolher outra lista
-			linhaCompleta = line[indexLista].percorreLinha();
-
-
-			printMatriz(row, col, numberOfPairs, line);
-			line[indexLista].print_lista();
-			//verificar se a linha esta completa;
+		    if(line[indexLista].percorreLinha()){
+        		break;
+    		}
+			
 		}
 	   gameRun = finalGame(row, col, matriz);
 	}
