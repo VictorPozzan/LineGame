@@ -125,68 +125,49 @@ bool  finalGame(int row, int col, int **matriz){
 	return false;//se for false retorna o fim do jogo
 }
 
-void setupPointsInMatriz(int n, int row, int col,  int **matriz,  Lista line[]){
-	int elementoX, elementoY;
-	bool verif1=false, verif2=false;
+void setupPointsInMatriz(int n, int row, int col, int** matriz, Lista line[]) {
+    for (int i = 0; i < n; i++) {
+        int elementoX, elementoY;
+        bool validPosition = false;
 
-	for(int i=0; i<n; i++){
-		verif1=false;
-		verif2=false;
+        while (!validPosition) {
+            cout << "Digite PX" << i << " inicial: ";
+            cin >> elementoX;
+            cout << "Digite PY" << i << " inicial: ";
+            cin >> elementoY;
 
-		while(verif1==false || verif2==false){
-	   		cout<<"Digite PX"<<i<<" inicial: ";
-			cin>>elementoX;
-			cout<<"Digite PY"<<i<<" inicial: ";
-			cin>>elementoY;
-			//verificar se a posição esta dentro da matriz
-			if((elementoX >= 0 && elementoX < row) && (elementoY >= 0 && elementoY < col)){
-				verif1 = true;
-				//verificar posição ja esta ocupada
-				if(matriz[elementoX][elementoY] == -1){
-					verif2 = true;
-				}
-				else{
-					verif2 = false;
-					cout<<"Esta posicao ja esta ocupada, digite outra posicao!"<<endl;
-				}
-			}else{
-				verif1 = false;
-				cout<<"Esta posicao esta fora da matriz, digite outra posicao!"<<endl;
-			}
-		}
+            if (elementoX >= 0 && elementoX < row && elementoY >= 0 && elementoY < col && matriz[elementoX][elementoY] == -1) {
+                validPosition = true;
+                matriz = InserMatriz(elementoX, elementoY, matriz, 'c');
+                line[i].createList(elementoX, elementoY);
+                printMatriz(row, col, n, line);
+            }
+            else {
+                cout << "Posição inválida ou já ocupada, digite outra posição!" << endl;
+            }
+        }
 
-		matriz = InserMatriz(elementoX, elementoY, matriz, 'c');//insere Matriz Começo
-		verif1=false;
-		verif2=false;
-		line[i].createList(elementoX, elementoY);
-		printMatriz(row, col, n, line);
-		while(verif1==false || verif2==false){
-			cout<<"Digite PX"<<i<<" final: ";
-			cin>>elementoX;
-			cout<<"Digite PY"<<i<<" final: ";
-			cin>>elementoY;
-			if((elementoX >= 0 && elementoX < row) && (elementoY >= 0 && elementoX < col)){
-				verif1 = true;
-				//verificar posição ja esta ocupada
-				if(matriz[elementoX][elementoY] == -1){
-					verif2 = true;
-				}
-				else{
-					verif2 = false;
-					cout<<"Esta posicao ja esta ocupada, digite outra posicao!"<<endl;
-				}
-			}
-			else{
-				verif1 = false;
-				cout<<"Esta posicao esta fora da matriz, digite outra posicao!"<<endl;
-			}
-		}
-		
-		matriz = InserMatriz(elementoX, elementoY, matriz, 'f');
-		line[i].createList(elementoX, elementoY);
-		printMatriz(row, col, n, line);
-	}
+        validPosition = false;
+
+        while (!validPosition) {
+            cout << "Digite PX" << i << " final: ";
+            cin >> elementoX;
+            cout << "Digite PY" << i << " final: ";
+            cin >> elementoY;
+
+            if (elementoX >= 0 && elementoX < row && elementoY >= 0 && elementoY < col && matriz[elementoX][elementoY] == -1) {
+                validPosition = true;
+                matriz = InserMatriz(elementoX, elementoY, matriz, 'f');
+                line[i].createList(elementoX, elementoY);
+                printMatriz(row, col, n, line);
+            }
+            else {
+                cout << "Posição inválida ou já ocupada, digite outra posição!" << endl;
+            }
+        }
+    }
 }
+
 
 void printDirectionCoordinates(){
 	cout<<"(X,Y)----->"<<endl;
