@@ -45,7 +45,7 @@ void printMatriz(int row, int col, int tamLista, Lista line[]){
 		cout<<" "<<i <<" | ";
 		for(int j=0; j<col; j++){
 			for(int k=0; k<tamLista; k++){
-		 	vdd = line[k].getValor(i, j);
+		 	vdd = line[k].getValue(i, j);
 				if(vdd){
 					cout<<"  "<<k;
 					k = tamLista;
@@ -209,7 +209,8 @@ int chooseLine(int numberOfPairs, Lista line[]){
     cout<<"Escolha a Linha pela qual deseja comecar a jogar"<<endl;
 	for(int i=0; i<numberOfPairs; i++){
 		cout<<"Linha "<<i<<":"<<endl;
-		line[i].print_lista();
+		line[i].print_list();
+		cout<<"\n"<<endl;
 	}
 	cout<<"Indice Linha: ";
 	cin>>indexLista;
@@ -232,7 +233,7 @@ int main(){
 	system("pause");
 	system("cls"); 
 	numberOfPairs = setNumberPairs(row, col);
-	Lista line[numberOfPairs]; //cria vetor de objetos
+	Lista line[numberOfPairs]; 
 	setupPointsInMatriz(numberOfPairs, row, col, matriz, line);
 	
 	bool gameRun = true;
@@ -241,7 +242,7 @@ int main(){
 	bool posInsideMatriz = false, posEmpty = false, posNear = false;
 	int elementoX, elementoY;
 	while(gameRun){
-        system("cls");//limpar a tela do jogo
+        system("cls");
 		printDirectionCoordinates();
 		
 		printMatriz(row, col, numberOfPairs, line);
@@ -284,14 +285,14 @@ int main(){
     		}
 			
 	    	if(startByBeginOrEndList=='C' || startByBeginOrEndList=='c'){
-        		line[indexLista].insere_lista_inicial(elementoX, elementoY);
+        		line[indexLista].insertListByHead(elementoX, elementoY);
     		}else{
-        		line[indexLista].insere_lista_final(elementoX,elementoY);
+        		line[indexLista].insertListByEnd(elementoX,elementoY);
     		}
 			
 			matriz[elementoX][elementoY] =  indexLista;
     		printMatriz(row, col, numberOfPairs, line);
-    		line[indexLista].print_lista();
+    		line[indexLista].print_list();
 
 		    if(line[indexLista].percorreLinha()){
         		break;

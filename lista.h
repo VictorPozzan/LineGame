@@ -11,18 +11,14 @@
 using namespace std;
 
 class Lista{
-    No *head, *fim;
+    No *head, *end;
 	public:
 		Lista();
         void createList(int x, int y);
-        void add_head(int novo);
-        void add_entre(int novo, int posicao);
-        void deletar_elemento(int novo);
-        void procurar_elemento(int novo);
-        void print_lista();
-        void insere_lista_inicial(int x, int y);
-        void insere_lista_final(int x, int y);
-        bool getValor(int i, int j);
+        void insertListByHead(int x, int y);
+        void insertListByEnd(int x, int y);
+        void print_list();
+		bool getValue(int i, int j);
         void removeListaOcupante();
         bool percorreLinha();
         bool posicaoPertoComeco(int x, int y);//verif3 se a posição sugerida é perto da ultima posição
@@ -31,7 +27,7 @@ class Lista{
 
 Lista::Lista(){
 	head = NULL;
-	fim = NULL;
+	end = NULL;
 }
 
 void Lista::createList(int x, int y){
@@ -54,31 +50,7 @@ void Lista::createList(int x, int y){
     }
 }
 
-void Lista::insere_lista_final(int x, int y){
-    No *s;
-    No *tmp;
-    No *segundo;
-
-	tmp = new No;
-    tmp->valor[0] = x;
-    tmp->valor[1] = y;
-
-	s = head;//s é o primeiro elemento
-	segundo = head;
-    segundo = segundo->proximo;//achei o segundo elemento da lista
-
-	tmp->proximo = segundo;
-    //tmp->proximo = s;
-	tmp->anterior = s;
-	//tmp->anterior = penultimo;
-	s->proximo = tmp;
-	//s->anterior = tmp;
-	segundo->anterior = tmp;
-	//penultimo->proximo = tmp;
-
-}
-
-void Lista::insere_lista_inicial(int x, int y){
+void Lista::insertListByHead(int x, int y){
     No *s;
     No *tmp;
     No *penultimo;
@@ -105,7 +77,31 @@ void Lista::insere_lista_inicial(int x, int y){
 
 }
 
-void Lista::print_lista(){
+void Lista::insertListByEnd(int x, int y){
+    No *s;
+    No *tmp;
+    No *segundo;
+
+	tmp = new No;
+    tmp->valor[0] = x;
+    tmp->valor[1] = y;
+
+	s = head;//s é o primeiro elemento
+	segundo = head;
+    segundo = segundo->proximo;//achei o segundo elemento da lista
+
+	tmp->proximo = segundo;
+    //tmp->proximo = s;
+	tmp->anterior = s;
+	//tmp->anterior = penultimo;
+	s->proximo = tmp;
+	//s->anterior = tmp;
+	segundo->anterior = tmp;
+	//penultimo->proximo = tmp;
+
+}
+
+void Lista::print_list(){
     No *q;
     if (head == NULL){
         cout<<"Lista vazia"<<endl;
@@ -117,11 +113,9 @@ void Lista::print_lista(){
         cout<<q->valor[0]<<","<<q->valor[1]<<" <-> ";
         q = q->proximo;
     }
- 	cout<<"Press Enter to continue"<<endl;
-	system("pause");
 }
 
-bool Lista::getValor(int i, int j){
+bool Lista::getValue(int i, int j){
 	No *q;
     q = head;
     int x=0;
