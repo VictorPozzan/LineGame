@@ -6,7 +6,7 @@
 #include <locale.h>
 #include <cstdlib>
 #include <windows.h>
-#include "no.h"
+#include "node.h"
 #include "lista.h"
 
 using namespace std;
@@ -198,7 +198,7 @@ boolean positionEmpty(int **matriz, int elementoX, int elementoY, int indexLista
 		else{//remover a lista ocupante dessa possição
 			int pos = matriz[elementoX][elementoY];
 			matriz = removePos(pos, row, col, matriz);
-			line[pos].removeListaOcupante();
+			line[pos].removeOccupantList();
 		   	return true;
 		}
 	}
@@ -252,7 +252,6 @@ int main(){
 		cout<<"C - Comecar pelo ponto inicial"<<endl;
 		cout<<"F - Comecar pelo ponto final"<<endl;
         cin>>startByBeginOrEndList;
-        bool linhaCompleta = false;
 
 		while(true){
         	system("cls");
@@ -272,9 +271,9 @@ int main(){
 			posNear = false;
 			
 			if(startByBeginOrEndList=='C' || startByBeginOrEndList=='c'){
-				posNear = line[indexLista].posicaoPertoComeco(elementoX, elementoY);
+				posNear = line[indexLista].verifyPositionNearHead(elementoX, elementoY);
 			}else if(startByBeginOrEndList=='F' || startByBeginOrEndList=='f'){				
-				posNear = line[indexLista].posicaoPertoFinal(elementoX, elementoY);
+				posNear = line[indexLista].verifyPositionNearEnd(elementoX, elementoY);
             }else{
 				cout<<"Esta opcao "<<startByBeginOrEndList<<" não existe"<<endl;
 				continue;
@@ -294,7 +293,7 @@ int main(){
     		printMatriz(row, col, numberOfPairs, line);
     		line[indexLista].print_list();
 
-		    if(line[indexLista].percorreLinha()){
+		    if(line[indexLista].verifyLineIsComplete()){
         		break;
     		}
 			

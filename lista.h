@@ -11,7 +11,7 @@
 using namespace std;
 
 class Lista{
-    No *head, *end;
+    Node *head, *end;
 	public:
 		Lista();
         void createList(int x, int y);
@@ -19,10 +19,10 @@ class Lista{
         void insertListByEnd(int x, int y);
         void print_list();
 		bool getValue(int i, int j);
-        void removeListaOcupante();
-        bool percorreLinha();
-        bool posicaoPertoComeco(int x, int y);//verif3 se a posição sugerida é perto da ultima posição
-		bool posicaoPertoFinal(int x, int y);//verif3 se a posição sugerida é perto da segunda posição
+        void removeOccupantList();
+        bool verifyLineIsComplete();
+        bool verifyPositionNearHead(int x, int y);
+		bool verifyPositionNearEnd(int x, int y);//verif3 se a posição sugerida é perto da segunda posição
 };
 
 Lista::Lista(){
@@ -31,78 +31,78 @@ Lista::Lista(){
 }
 
 void Lista::createList(int x, int y){
-    No *s;
-    No *tmp;
-    tmp = new No;
-    tmp->valor[0] = x;
-    tmp->valor[1] = y;
-    tmp->proximo = NULL;
+    Node *s;
+    Node *tmp;
+    tmp = new Node;
+    tmp->coordinate[0] = x;
+    tmp->coordinate[1] = y;
+    tmp->next = NULL;
     if (head == NULL){
-        tmp->anterior = NULL;
+        tmp->previous = NULL;
         head = tmp;
     }
     else{
         s = head;
-        while (s->proximo != NULL)
-        s = s->proximo;
-        s->proximo = tmp;
-        tmp->anterior = s;
+        while (s->next != NULL)
+        s = s->next;
+        s->next = tmp;
+        tmp->previous = s;
     }
 }
 
 void Lista::insertListByHead(int x, int y){
-    No *s;
-    No *tmp;
-    No *penultimo;
+    Node *s;
+    Node *tmp;
+    Node *penultimo;
 
-	tmp = new No;
-    tmp->valor[0] = x;
-    tmp->valor[1] = y;
+	tmp = new Node;
+    tmp->coordinate[0] = x;
+    tmp->coordinate[1] = y;
 
 	s = head;//s é o primeiro elemento
 	penultimo = head;
 	int pulaprimeiro=0;
-	while (s->proximo != NULL){ // ate achar  ultimo elemento
+	while (s->next != NULL){ // ate achar  ultimo elemento
            if(pulaprimeiro > 0){
-			   penultimo = penultimo->proximo;//sempre vai estar apontando o elemento anterior ao ultimo
+			   penultimo = penultimo->next;//sempre vai estar apontando o elemento anterior ao ultimo
 		   }
-		   s = s->proximo;
+		   s = s->next;
 		   pulaprimeiro++;
 	}
 
-    tmp->proximo = s;
-	tmp->anterior = penultimo;
-	s->anterior = tmp;
-	penultimo->proximo = tmp;
+    tmp->next = s;
+	tmp->previous = penultimo;
+	s->previous = tmp;
+	penultimo->next = tmp;
 
 }
 
 void Lista::insertListByEnd(int x, int y){
-    No *s;
-    No *tmp;
-    No *segundo;
+    Node *s;
+    Node *tmp;
+    Node *segundo;
 
-	tmp = new No;
-    tmp->valor[0] = x;
-    tmp->valor[1] = y;
+	tmp = new Node;
+    tmp->coordinate[0] = x;
+    tmp->coordinate[1] = y;
 
 	s = head;//s é o primeiro elemento
 	segundo = head;
-    segundo = segundo->proximo;//achei o segundo elemento da lista
+    segundo = segundo->next;//achei o segundo elemento da lista
 
-	tmp->proximo = segundo;
+	tmp->next = segundo;
     //tmp->proximo = s;
-	tmp->anterior = s;
+	tmp->previous = s;
 	//tmp->anterior = penultimo;
-	s->proximo = tmp;
+	s->next = tmp;
 	//s->anterior = tmp;
-	segundo->anterior = tmp;
+	segundo->previous = tmp;
 	//penultimo->proximo = tmp;
 
 }
 
 void Lista::print_list(){
-    No *q;
+    Node *q;
     if (head == NULL){
         cout<<"Lista vazia"<<endl;
         return;
@@ -110,69 +110,69 @@ void Lista::print_list(){
     q = head;
     cout<<"Valores da lista: "<<endl;
     while (q != NULL){
-        cout<<q->valor[0]<<","<<q->valor[1]<<" <-> ";
-        q = q->proximo;
+        cout<<q->coordinate[0]<<","<<q->coordinate[1]<<" <-> ";
+        q = q->next;
     }
 }
 
 bool Lista::getValue(int i, int j){
-	No *q;
+	Node *q;
     q = head;
     int x=0;
     int y=0;
     bool find = false;
 	while (q != NULL){
-        x = q->valor[0];
-        y = q->valor[1];
+        x = q->coordinate[0];
+        y = q->coordinate[1];
 		if(x==i && y==j){
 			find = true;
 			return find;
 			break;
 		}
-        q = q->proximo;
+        q = q->next;
     }
 	return find;
 }
 
-void Lista::removeListaOcupante(){
-	No *s;
-    No *tmp;
-    No *ultimo;
+void Lista::removeOccupantList(){
+	Node *s;
+    Node *tmp;
+    Node *ultimo;
 
 	s = head;//s é o primeiro elemento
-	tmp = s->proximo;
-    ultimo = tmp->proximo;
+	tmp = s->next;
+    ultimo = tmp->next;
 	int pulaprimeiro=0;
-	while (ultimo->proximo != NULL){ // ate achar  ultimo elemento
-           if(ultimo->proximo != NULL && pulaprimeiro == 1){
+	while (ultimo->next != NULL){ // ate achar  ultimo elemento
+           if(ultimo->next != NULL && pulaprimeiro == 1){
 				tmp = ultimo;
-				ultimo = ultimo->proximo;
+				ultimo = ultimo->next;
    	   	   }
-		   tmp->proximo = NULL;
-  	   	   tmp->anterior = NULL;
-		   s->proximo = ultimo;
-  	   	   ultimo->anterior = s;
+		   tmp->next = NULL;
+  	   	   tmp->previous = NULL;
+		   s->next = ultimo;
+  	   	   ultimo->previous = s;
   	   	   free(tmp);
   	   	   pulaprimeiro = 1;
 	}
 
 }
 
-bool Lista::percorreLinha(){
+bool Lista::verifyLineIsComplete(){
 	bool resposta = true;
-    No *s;
-	No *s1;
+    Node *s;
+	Node *s1;
 	s = head;
-	s1 = s->proximo;
+	s1 = s->next;
 
-	while(s->proximo != NULL){
-	  if((s->valor[0] == s1->valor[0] && s->valor[1] == s1->valor[1]+1)||
-	    (s->valor[0] == s1->valor[0] && s->valor[1] == s1->valor[1]-1)||
-  	    (s->valor[0] == s1->valor[0]+1 && s->valor[1] == s1->valor[1])||
-		(s->valor[0] == s1->valor[0]-1 && s->valor[1] == s1->valor[1])){
-		  s = s->proximo;
-		  if(s1->proximo != NULL){
-			  s1 = s1->proximo;
+	while(s->next != NULL){
+	  if((s->coordinate[0] == s1->coordinate[0] && s->coordinate[1] == s1->coordinate[1]+1)||
+	    (s->coordinate[0] == s1->coordinate[0] && s->coordinate[1] == s1->coordinate[1]-1)||
+  	    (s->coordinate[0] == s1->coordinate[0]+1 && s->coordinate[1] == s1->coordinate[1])||
+		(s->coordinate[0] == s1->coordinate[0]-1 && s->coordinate[1] == s1->coordinate[1])){
+		  s = s->next;
+		  if(s1->next != NULL){
+			  s1 = s1->next;
 		  }
 	  }else{
 		  resposta = false;
@@ -183,44 +183,44 @@ bool Lista::percorreLinha(){
 	return resposta;
 }
 
-bool Lista::posicaoPertoComeco(int x, int y){
+bool Lista::verifyPositionNearHead(int x, int y){
 	bool resposta = false;
-	No *s;
-    No *penultimo;
+	Node *s;
+    Node *penultimo;
 
 	s = head;//s é o primeiro elemento
 	penultimo = head;
 	int pulaprimeiro=0;
-	while (s->proximo != NULL){ // ate achar  ultimo elemento
+	while (s->next != NULL){ // ate achar  ultimo elemento
            if(pulaprimeiro > 0){
-			   penultimo = penultimo->proximo;//sempre vai estar apontando o elemento anterior ao ultimo
+			   penultimo = penultimo->next;//sempre vai estar apontando o elemento anterior ao ultimo
 		   }
-		   s = s->proximo;
+		   s = s->next;
 		   pulaprimeiro++;
 	}
 
-     if((penultimo->valor[0] == x && penultimo->valor[1] == y+1)||
-	    (penultimo->valor[0] == x && penultimo->valor[1] == y-1)||
-  	    (penultimo->valor[0] == x+1 && penultimo->valor[1] == y)||
-		(penultimo->valor[0] == x-1 && penultimo->valor[1] == y)){
+     if((penultimo->coordinate[0] == x && penultimo->coordinate[1] == y+1)||
+	    (penultimo->coordinate[0] == x && penultimo->coordinate[1] == y-1)||
+  	    (penultimo->coordinate[0] == x+1 && penultimo->coordinate[1] == y)||
+		(penultimo->coordinate[0] == x-1 && penultimo->coordinate[1] == y)){
 			resposta = true;
 		}
 
 	return resposta;
 }
 
-bool Lista::posicaoPertoFinal(int x, int y){
+bool Lista::verifyPositionNearEnd(int x, int y){
 	bool resposta = false;
-	No *s;
-    No *segundo;
+	Node *s;
+    Node *segundo;
 
 	s = head;//é preciso verificar o segundo elemento da linha sempre
-	segundo = s->proximo;
+	segundo = s->next;
 
-     if((segundo->valor[0] == x && segundo->valor[1] == y+1)||
-	    (segundo->valor[0] == x && segundo->valor[1] == y-1)||
-  	    (segundo->valor[0] == x+1 && segundo->valor[1] == y)||
-		(segundo->valor[0] == x-1 && segundo->valor[1] == y)){
+     if((segundo -> coordinate[0] == x && segundo->coordinate[1] == y+1)||
+	    (segundo -> coordinate[0] == x && segundo->coordinate[1] == y-1)||
+  	    (segundo -> coordinate[0] == x+1 && segundo->coordinate[1] == y)||
+		(segundo -> coordinate[0] == x-1 && segundo->coordinate[1] == y)){
 			resposta = true;
 		}
 
