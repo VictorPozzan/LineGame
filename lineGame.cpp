@@ -7,10 +7,12 @@
 #include <cstdlib>
 #include <windows.h>
 #include "node.h"
-#include "lista.h"
+#include "list.h"
 
 using namespace std;
 
+#define HEADLINE -2;
+#define ENDLINE -3;
 
 int setNumberPairs(int row, int col){
 	int numberPairs;
@@ -26,7 +28,7 @@ int setNumberPairs(int row, int col){
 	}
 }
 
-void printMatriz(int row, int col, int tamLista, Lista line[]){
+void printMatriz(int row, int col, int tamLista, List line[]){
 	for(int i=0; i<col+7+(col*2); i++){
 		cout<<"-";	
 	}
@@ -52,7 +54,7 @@ void printMatriz(int row, int col, int tamLista, Lista line[]){
 				}
 			}
 			if(vdd == false){
-			   cout<<"  "<<char(164);//164
+			   cout<<"  "<<char(164);
             }
 		}
 		cout<<" |"<<endl;
@@ -96,10 +98,10 @@ int **removePos(int pos, int row, int col, int **matriz){
 
 int **InserMatriz(int posX, int posY, int **matriz, char cf){
 	if(cf=='c'){
-		matriz[posX][posY] = -2;//-2 significa começo da linha
+		matriz[posX][posY] = HEADLINE;//-2 significa começo da linha
 	}
 	else{
-        matriz[posX][posY] = -3;//2 significa começo da linha
+        matriz[posX][posY] = ENDLINE;//2 significa começo da linha
 	}
 
 	return (matriz);
@@ -125,7 +127,7 @@ bool  finalGame(int row, int col, int **matriz){
 	return false;//se for false retorna o fim do jogo
 }
 
-void setupPointsInMatriz(int n, int row, int col, int** matriz, Lista line[]) {
+void setupPointsInMatriz(int n, int row, int col, int** matriz, List line[]) {
     for (int i = 0; i < n; i++) {
         int elementoX, elementoY;
         bool validPosition = false;
@@ -186,7 +188,7 @@ boolean positionInsideMatriz(int elementoX, int elementoY, int row, int col){
 	}
 }
 
-boolean positionEmpty(int **matriz, int elementoX, int elementoY, int indexLista, int row, int col, Lista line[]){//verificar posição se esta vazia na matriz
+boolean positionEmpty(int **matriz, int elementoX, int elementoY, int indexLista, int row, int col, List line[]){//verificar posição se esta vazia na matriz
 	if(matriz[elementoX][elementoY] == -1){
 		return true;
 	}
@@ -204,7 +206,7 @@ boolean positionEmpty(int **matriz, int elementoX, int elementoY, int indexLista
 	}
 }
 
-int chooseLine(int numberOfPairs, Lista line[]){
+int chooseLine(int numberOfPairs, List line[]){
 	int indexLista;
     cout<<"Escolha a Linha pela qual deseja comecar a jogar"<<endl;
 	for(int i=0; i<numberOfPairs; i++){
@@ -233,7 +235,7 @@ int main(){
 	system("pause");
 	system("cls"); 
 	numberOfPairs = setNumberPairs(row, col);
-	Lista line[numberOfPairs]; 
+	List line[numberOfPairs]; 
 	setupPointsInMatriz(numberOfPairs, row, col, matriz, line);
 	
 	bool gameRun = true;

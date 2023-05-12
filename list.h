@@ -10,10 +10,10 @@
 
 using namespace std;
 
-class Lista{
+class List{
     Node *head, *end;
 	public:
-		Lista();
+		List();
         void createList(int x, int y);
         void insertListByHead(int x, int y);
         void insertListByEnd(int x, int y);
@@ -22,62 +22,56 @@ class Lista{
         void removeOccupantList();
         bool verifyLineIsComplete();
         bool verifyPositionNearHead(int x, int y);
-		bool verifyPositionNearEnd(int x, int y);//verif3 se a posição sugerida é perto da segunda posição
+		bool verifyPositionNearEnd(int x, int y);
 };
 
-Lista::Lista(){
+List::List(){
 	head = NULL;
 	end = NULL;
 }
 
-void Lista::createList(int x, int y){
-    Node *s;
-    Node *tmp;
-    tmp = new Node;
-    tmp->coordinate[0] = x;
-    tmp->coordinate[1] = y;
-    tmp->next = NULL;
-    if (head == NULL){
-        tmp->previous = NULL;
-        head = tmp;
-    }
-    else{
-        s = head;
-        while (s->next != NULL)
-        s = s->next;
-        s->next = tmp;
-        tmp->previous = s;
+void List::createList(int x, int y){
+    Node *nodo;
+    Node *tmpNodo;
+    
+    tmpNodo = new Node;
+    tmpNodo->coordinate[0] = x;
+    tmpNodo->coordinate[1] = y;
+    tmpNodo->next = NULL;
+    
+	if (head == NULL){
+        tmpNodo->previous = NULL;
+        head = tmpNodo;
+    } else {
+        nodo = head;
+        while (nodo->next != NULL)
+        nodo = nodo->next;
+        nodo->next = tmpNodo;
+        tmpNodo->previous = nodo;
     }
 }
 
-void Lista::insertListByHead(int x, int y){
-    Node *s;
-    Node *tmp;
-    Node *penultimo;
+void List::insertListByHead(int x, int y){
+    Node *newNode = new Node;
+    newNode->coordinate[0] = x;
+    newNode->coordinate[1] = y;
 
-	tmp = new Node;
-    tmp->coordinate[0] = x;
-    tmp->coordinate[1] = y;
+    Node *prev = nullptr;
+    Node *curr = head;
 
-	s = head;//s é o primeiro elemento
-	penultimo = head;
-	int pulaprimeiro=0;
-	while (s->next != NULL){ // ate achar  ultimo elemento
-           if(pulaprimeiro > 0){
-			   penultimo = penultimo->next;//sempre vai estar apontando o elemento anterior ao ultimo
-		   }
-		   s = s->next;
-		   pulaprimeiro++;
-	}
+    while (curr->next != nullptr) {
+        prev = curr;
+        curr = curr->next;
+    }
 
-    tmp->next = s;
-	tmp->previous = penultimo;
-	s->previous = tmp;
-	penultimo->next = tmp;
+    prev->next = newNode;
+    newNode->previous = prev;
+    newNode->next = curr;
+    curr->previous = newNode;
 
 }
 
-void Lista::insertListByEnd(int x, int y){
+void List::insertListByEnd(int x, int y){
     Node *s;
     Node *tmp;
     Node *segundo;
@@ -101,7 +95,7 @@ void Lista::insertListByEnd(int x, int y){
 
 }
 
-void Lista::print_list(){
+void List::print_list(){
     Node *q;
     if (head == NULL){
         cout<<"Lista vazia"<<endl;
@@ -115,11 +109,11 @@ void Lista::print_list(){
     }
 }
 
-bool Lista::getValue(int i, int j){
+bool List::getValue(int i, int j){
 	Node *q;
     q = head;
-    int x=0;
-    int y=0;
+    int x = 0;
+    int y = 0;
     bool find = false;
 	while (q != NULL){
         x = q->coordinate[0];
@@ -134,7 +128,7 @@ bool Lista::getValue(int i, int j){
 	return find;
 }
 
-void Lista::removeOccupantList(){
+void List::removeOccupantList(){
 	Node *s;
     Node *tmp;
     Node *ultimo;
@@ -158,7 +152,7 @@ void Lista::removeOccupantList(){
 
 }
 
-bool Lista::verifyLineIsComplete(){
+bool List::verifyLineIsComplete(){
 	bool resposta = true;
     Node *s;
 	Node *s1;
@@ -183,7 +177,7 @@ bool Lista::verifyLineIsComplete(){
 	return resposta;
 }
 
-bool Lista::verifyPositionNearHead(int x, int y){
+bool List::verifyPositionNearHead(int x, int y){
 	bool resposta = false;
 	Node *s;
     Node *penultimo;
@@ -209,7 +203,7 @@ bool Lista::verifyPositionNearHead(int x, int y){
 	return resposta;
 }
 
-bool Lista::verifyPositionNearEnd(int x, int y){
+bool List::verifyPositionNearEnd(int x, int y){
 	bool resposta = false;
 	Node *s;
     Node *segundo;
